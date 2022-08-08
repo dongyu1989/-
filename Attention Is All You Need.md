@@ -8,7 +8,7 @@
 ## 学习视频
 [Attention Is All You Need 论文翻译](https://blog.csdn.net/qq_29695701/article/details/88096455)
 
-[跟李沐学AI](https://www.baidu.com/](https://www.bilibili.com/video/BV1pu411o7BE?spm_id_from=333.337.search-card.all.click&vd_source=97f3f76c3508d1560f7e42c25682c326))
+[跟李沐学AI](https://www.bilibili.com/video/BV1pu411o7BE?spm_id_from=333.337.search-card.all.click&vd_source=97f3f76c3508d1560f7e42c25682c326)
 
 [李宏毅 transformer精讲](https://www.youtube.com/watch?v=ugWDIIOHtPA&list=PLJV_el3uVTsOK_ZK5L0Iv_EQoL1JefRL4&index=62)
 
