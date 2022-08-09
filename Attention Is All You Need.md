@@ -67,7 +67,13 @@ self-attention and discuss its advantages over models such as [14, 15] and [8].
 
 ## 背景
 
-扩展神经GPU〔16〕、ByteNet〔18〕和ConvS2S〔9〕都是为了减少序列计算，所有这些都使用卷积神经网络作为基本构建块，并使用并行的方式来计算所有输入和输出位置的隐藏表示。
+扩展神经GPU〔16〕、ByteNet〔18〕和ConvS2S〔9〕都是为了减少序列计算，所有这些都使用卷积神经网络作为基本构建块，并使用并行的方式来计算所有输入和输出位置的隐藏表示。ConvS2S是线性的，ByteNet是对数计算量。这使得学习远距离位置之间的依赖性变得更加困难[12]。在Transformer中，这被减少到一个恒定的操作次数，尽管代价是由于平均注意加权位置而降低了有效分辨率，我们用3.2节中描述的多头注意来抵消这种影响。
+
+自我注意（Self-attention），有时被称为内注意，是一种注意力机制，它将一个序列的不同位置联系起来，来计算序列的表示。在阅读理解、抽象总结、文本蕴涵和学习任务独立句子表达等多种任务中，已经成功地运用了Self-attention机制[4]、[27]、[28]、[22]。
+
+端到端的记忆网络是一种基于循环的注意力机制，而不是顺序一致的循环，并且在简单的语言问答和语言建模任务上表现良好[34]。
+
+然而，据我们所知，Transformer是第一个完全依赖于 Self-Attention 来计算其输入和输出表示的转导模型，而不使用序列对齐的RNN或卷积。在下面的章节中，我们将描述Transformer，激发 Self-attention(motivate self-attention)，并讨论它相对于[17]，[18]和[9]等模型的优势。
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
