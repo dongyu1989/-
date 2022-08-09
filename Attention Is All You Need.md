@@ -174,6 +174,10 @@ The code we used to train and evaluate our models is available at https://github
 
 [Attention Is All You Need 论文翻译 2](http://t.zoukankan.com/wwj99-p-12156301.html)
 
+
+[Transformer模型详细解读（理论篇）](https://blog.csdn.net/a_123zxy/article/details/120160302)
+
+
 [跟李沐学AI](https://www.bilibili.com/video/BV1pu411o7BE?spm_id_from=333.337.search-card.all.click&vd_source=97f3f76c3508d1560f7e42c25682c326)
 
 [李宏毅 transformer精讲](https://www.youtube.com/watch?v=ugWDIIOHtPA&list=PLJV_el3uVTsOK_ZK5L0Iv_EQoL1JefRL4&index=62)
