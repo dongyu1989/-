@@ -37,7 +37,9 @@ The code we used to train and evaluate our models is available at https://github
 
 
 ## 学习视频
-[Attention Is All You Need 论文翻译](https://blog.csdn.net/qq_29695701/article/details/88096455)
+[Attention Is All You Need 论文翻译 1](https://blog.csdn.net/qq_29695701/article/details/88096455)
+
+[Attention Is All You Need 论文翻译 2](http://t.zoukankan.com/wwj99-p-12156301.html)
 
 [跟李沐学AI](https://www.bilibili.com/video/BV1pu411o7BE?spm_id_from=333.337.search-card.all.click&vd_source=97f3f76c3508d1560f7e42c25682c326)
 
