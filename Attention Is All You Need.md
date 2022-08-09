@@ -95,6 +95,13 @@ around each of the sub-layers, followed by layer normalization. We also modify t
 from attending to subsequent positions. This masking, combined with fact that the output embeddings are offset by one position, ensures that the
 predictions for position i can depend only on the known outputs at positions less than i.
 
+## 3.1 编码器和解码器堆栈
+
+编码器：编码器由一组N = 6的相同层堆叠而成。每层有两个子层。第一个子层采用 Multi-Head Self-Attention 机制，第二个是一个简单的，位置导向的，全连接的前馈网络。我们在两个子层之间使用一个 Residual残差连接[11]，然后是层 Normalization[1]。也就是说，每个子层的输出是LayerNorm(x + Sublayer( x ))，其中Sublayer(x)是子层实现的函数。为了方便这些 Residual 连接，规定最后产出得到的对于每个token的embedding的维度是512。
+
+解码器：解码器也由一个N = 6相同层堆叠而成。除了每个编码器层中的两个子层外，解码器还插入第三个子层，该子层在编码器堆栈的输出上执行 Multi-Head Attention。与编码器类似，我们在每个子层周围使用 Residual 连接，然后进行层Normalization。我们还修改了解码器堆栈中的自注意子层，以防止每个位置去关注其后续位置。这个掩膜，结合输出嵌入(the output embeddings)被一个位置偏移(offset)的事实，确保在预测位置i的token时，整个模型将无法看到位置i以后的token信息。
+
+
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
 commonly used in encoder-decoder architectures with multi-headed self-attention. 
