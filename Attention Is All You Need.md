@@ -94,6 +94,7 @@ Most competitive neural sequence transduction models have an encoder-decoder str
 
 很多具有竞争力的神经序列转导模型都含有编码器-解码器结构[5，2，35]。在这里，编码器将符号表示的输入序列(x1,...,xn)映射为连续表示序列z =  (z1,...,zn) 。给定z, 解码器然后一次生成一个符号的输出序列(y1,..., ym)。在每一步中，模型都是自动回归(auto-regressive)的[10]，在生成下一步时，将先前生成的符号序列作为附加输入。Transformer遵循这一总体架构，使用 堆叠的 Self-attention 和 逐点(point-wise)、全连接的层用于编码器和解码器，分别如图1的左半部分和右半部分所示。
 
+<img src="./image/The Transformer-model architecture.png">
 
 ## 结论
 在这项工作中，我们提出了完全基于注意的第一序列转导模型Transformer，用多头自注意取代了编码器-解码器体系结构中最常用的循环层。
