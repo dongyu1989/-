@@ -131,7 +131,7 @@ While for small values of dk the two mechanisms perform similarly, additive atte
 
 对于较小的dk值，这两种机制的性能相似，但加性注意优于点积注意，而不会缩放较大的dk值[3]。我们怀疑，对于dk的较大值，点积的增长幅度较大，会将SoftMax函数推送到具有极小梯度的区域。为了抵消这种影响，我们将点积乘以1/radical sign dk。
 
-### 3.3.2 Multi-Head Attention
+### 3.2.2 Multi-Head Attention
 Instead of performing a single attention function with dmodel-dimensional keys, values and queries, we found it beneficial to linearly project the 
 queries, keys and values h times with different, learned linear projections to dk, dk and dv dimensions, respectively. On each of these projected 
 versions of queries, keys and values we then perform the attention function in parallel, yielding dv-dimensional output values. These are concatenated 
@@ -139,6 +139,10 @@ and once again projected, resulting in the final values, as depicted in Figure 2
 
 Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With a single attention head, averaging inhibits this.
 <img src="./image/MultiHead.png">
+
+### 3.2.2 多头注意力
+不同于使用dmodel维度的键、值和查询来执行单一注意功能，我们发现，使用另一种可学习的线性投影（projection）分别对查询、键和值进行h次线性投影（projection）会更有效，这些投影将这些元素分别映射到维度为dk，dk，dv的空间。在这些元素的每个投影版本上，我们并行执行注意力函数，得到dv维的输出值。如图2所示，之后它们被连接起来，并再次进行投影，从而得到最终的值。
+
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
