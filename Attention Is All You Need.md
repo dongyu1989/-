@@ -101,6 +101,15 @@ predictions for position i can depend only on the known outputs at positions les
 
 解码器：解码器也由一个N = 6相同层堆叠而成。除了每个编码器层中的两个子层外，解码器还插入第三个子层，该子层在编码器堆栈的输出上执行 Multi-Head Attention。与编码器类似，我们在每个子层周围使用 Residual 连接，然后进行层Normalization。我们还修改了解码器堆栈中的自注意子层，以防止每个位置去关注其后续位置。这个掩膜，结合输出嵌入(the output embeddings)被一个位置偏移(offset)的事实，确保在预测位置i的token时，整个模型将无法看到位置i以后的token信息。
 
+## 3.2 Attention
+An attention function can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values, and output are all 
+vectors. The output is computed as a weighted sum of the values, where the weight assigned to each value is computed by a compatibility function of the
+query with the corresponding key.
+
+## 3.2 注意力
+注意力函数可以描述为从一个查询(query)和一组键值对(key-value pairs)到一个输出的映射，其中，查询(query)、键(key)、值(value)和输出(output)都是向量。输出(output)是以值(value)的加权和进行计算的，其中分配给每个值(value)的权重是通过查询(query)的匹配函数(compatibility function)和相应的键(key)计算的。
+
+### 3.2.1 Scaled Dot-Product Attention
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
