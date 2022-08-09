@@ -143,6 +143,7 @@ Multi-head attention allows the model to jointly attend to information from diff
 ### 3.2.2 多头注意力
 不同于使用dmodel维度的键、值和查询来执行单一注意功能，我们发现，使用另一种可学习的线性投影（projection）分别对查询、键和值进行h次线性投影（projection）会更有效，这些投影将这些元素分别映射到维度为dk，dk，dv的空间。在这些元素的每个投影版本上，我们并行执行注意力函数，得到dv维的输出值。如图2所示，之后它们被连接起来，并再次进行投影，从而得到最终的值。
 
+在这项工作中，我们使用H = 8 H=8H=8的并行 attention layers 或 heads。对于每个模型，dk=dv=dmodel/h=64。由于每个头部的降维，总的计算成本与 single-head 全尺寸注意力相似。
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
