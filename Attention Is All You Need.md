@@ -32,7 +32,7 @@ In this work we propose the Transformer, a model architecture eschewing recurren
 dependencies between input and output. The Transformer allows for significantly more parallelization and can reach a new state of the art in translation 
 quality after being trained for as little as twelve hours on eight P100 GPUs.
 
-## 导言
+## 1 导言
 
 递归神经网络(RNN)，特别是长短时记忆(LSTM)[13]和门控递归(GRU)[7]神经网络，已经在时间序列模型和转导问题领域，如语言模型、机器翻译[35,2,5]等任务中，已经成为目前最先进的方法。目前，
 还有许多努力尝试去继续推动循环语言模型和编解码器架构的应用边界[38,24,15]。
@@ -65,7 +65,7 @@ To the best of our knowledge, however, the Transformer is the first transduction
 its input and output without using sequencealigned RNNs or convolution. In the following sections, we will describe the Transformer, motivate
 self-attention and discuss its advantages over models such as [14, 15] and [8].
 
-## 背景
+## 2 背景
 
 扩展神经GPU〔16〕、ByteNet〔18〕和ConvS2S〔9〕都是为了减少序列计算，所有这些都使用卷积神经网络作为基本构建块，并使用并行的方式来计算所有输入和输出位置的隐藏表示。ConvS2S是线性的，ByteNet是对数计算量。这使得学习远距离位置之间的依赖性变得更加困难[12]。在Transformer中，这被减少到一个恒定的操作次数，尽管代价是由于平均注意加权位置而降低了有效分辨率，我们用3.2节中描述的多头注意来抵消这种影响。
 
@@ -81,6 +81,19 @@ Most competitive neural sequence transduction models have an encoder-decoder str
 很多具有竞争力的神经序列转导模型都含有编码器-解码器结构[5，2，35]。在这里，编码器将符号表示的输入序列(x1,...,xn)映射为连续表示序列z =  (z1,...,zn) 。给定z, 解码器然后一次生成一个符号的输出序列(y1,..., ym)。在每一步中，模型都是自动回归(auto-regressive)的[10]，在生成下一步时，将先前生成的符号序列作为附加输入。Transformer遵循这一总体架构，使用 堆叠的 Self-attention 和 逐点(point-wise)、全连接的层用于编码器和解码器，分别如图1的左半部分和右半部分所示。
 
 <img src="./image/The Transformer-model architecture.png">
+
+### 3.1 Encoder and Decoder Stacks
+
+Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers. The first is a multi-head self-attention  mechanism, and the second is a simple, position-wise fully connected feed-forward network. We employ a residual connection [10] around each of the two 
+sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is LayerNorm(x + Sublayer(x)), where Sublayer(x) is the function 
+implemented by the sub-layer itself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding layers, produce 
+outputs of dimension dmodel = 512.
+
+Decoder: The decoder is also composed of a stack of N = 6 identical layers. In addition to the two sub-layers in each encoder layer, the decoder inserts 
+a third sub-layer, which performs multi-head attention over the output of the encoder stack. Similar to the encoder, we employ residual connections
+around each of the sub-layers, followed by layer normalization. We also modify the self-attention sub-layer in the decoder stack to prevent positions 
+from attending to subsequent positions. This masking, combined with fact that the output embeddings are offset by one position, ensures that the
+predictions for position i can depend only on the known outputs at positions less than i.
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
