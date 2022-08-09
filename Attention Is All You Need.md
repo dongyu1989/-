@@ -46,6 +46,28 @@ quality after being trained for as little as twelve hours on eight P100 GPUs.
 在这项工作中，我们提出了Transformer，一个避免了循环的模型架构，它完全依赖一个注意机制来绘制输入和输出之间的全局依赖性。Transformer 允许更大程度的并行化，可以在8个p100 gpu上经过
 短短12小时的训练后，在翻译质量上达到一个新的水平。
 
+## Background
+
+The goal of reducing sequential computation also forms the foundation of the Extended Neural GPU[20], ByteNet[15] and ConvS2S[8], all of which use 
+convolutional neural networks as basic building block, computing hidden representations in parallel for all input and output positions. In these models,
+the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, linearly for 
+ConvS2S and logarithmically for ByteNet. This makes it more difficult to learn dependencies between distant positions [11]. In the Transformer this is
+reduced to a constant number of operations, albeit at the cost of reduced effective resolution due to averaging attention-weighted positions, an effect 
+we counteract with Multi-Head Attention as described in section 3.2.
+
+Self-attention, sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a 
+representation of the sequence. Self-attention has been used successfully in a variety of tasks including reading comprehension, abstractive summarization, textual entailment and learning task-independent sentence representations [4, 22, 23, 19].
+
+End-to-end memory networks are based on a recurrent attention mechanism instead of sequencealigned recurrence and have been shown to perform well on 
+simple-language question answering and language modeling tasks[28].
+
+To the best of our knowledge, however, the Transformer is the first transduction model relying entirely on self-attention to compute representations of 
+its input and output without using sequencealigned RNNs or convolution. In the following sections, we will describe the Transformer, motivate
+self-attention and discuss its advantages over models such as [14, 15] and [8].
+
+## 背景
+
+扩展神经GPU〔16〕、ByteNet〔18〕和ConvS2S〔9〕都是为了减少序列计算，所有这些都使用卷积神经网络作为基本构建块，并使用并行的方式来计算所有输入和输出位置的隐藏表示。
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
