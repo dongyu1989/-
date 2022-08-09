@@ -112,8 +112,7 @@ query with the corresponding key.
 ### 3.2.1 Scaled Dot-Product Attention
 <img src="./image/Scaled Dot-Product Attention.png">
 We call our particular attention "Scaled Dot-Product Attention" (Figure 2). The input consists of queries and keys of dimension dk, and values of 
-dimension dv. We compute the dot products of the query with all keys, divide each by pdk, and apply a softmax function to obtain the weights on the
-values.
+dimension dv. We compute the dot products of the query with all keys, divide each by radical sign dk, and apply a softmax function to obtain the weights on the values.
 
 In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q. The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as:
 <img src="./image/attention_1.png">
@@ -121,6 +120,16 @@ In practice, we compute the attention function on a set of queries simultaneousl
 The two most commonly used attention functions are additive attention [2], and dot-product (multiplicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of 1/radical sign dk. Additive attention computes the compatibility function using a feed-forward network with a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code.
 
 While for small values of dk the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of dk[3]. We suspect that for large values of dk, the dot products grow large in magnitude, pushing the softmax function into regions where it hasextremely small gradients 4. To counteract this effect, we scale the dot products by 1/radical sign dk
+
+### 3.2.1 缩放点击注意力
+我们称我们的特别的关注(attention)为“Scaled Dot-Product Attention”（图2）。输入包括dk维的查询和键，以及dv维的值。我们计算查询与所有键的点积，并将每个点积除以dk 然后应用SoftMax函数得到这些值的权重。
+
+在实践中，我们同时计算一组查询上的注意力函数，将它们打包成矩阵Q。键和值也打包成矩阵K和V。我们计算输出矩阵的方式为：
+<img src="./image/attention_1.png">
+
+两个最常用的注意力函数是加性注意(additive attention)[2]和点积（乘法）注意(dot-product attention)。除1/radical sign dk比例因子外，点积注意与我们的算法相同。加性注意使用一个前馈网络和一个单独的隐藏层来计算兼容性函数(compatibility function)。虽然二者在理论复杂度上相似，但在实践中，点积注意速度更快，空间效率更高，因为它可以使用高度优化的矩阵乘法代码来实现。
+
+对于较小的dk值，这两种机制的性能相似，但加性注意优于点积注意，而不会缩放较大的dk值[3]。我们怀疑，对于dk的较大值，点积的增长幅度较大，会将SoftMax函数推送到具有极小梯度的区域。为了抵消这种影响，我们将点积乘以1/radical sign dk。
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
