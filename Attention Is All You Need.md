@@ -12,6 +12,38 @@ fraction of the training costs of the best models from the literature.
 ## 摘要
 目前主要序列转入模型主要是基于复杂的循环或卷积神经网络，这样网络一般是编码器和解码器架构。在这些性能最好的模型之间还通过一个注意机制连接编码器和解码器。我们提出了一种新的简单网络结构即Transformer，它完全基于注意机制，完全不需要递归和卷积。对两个机器翻译任务的实验表明，这些模型在质量上更优，同时更具并行性，训练时间明显更少。对两个机器翻译任务的实验表明，这些模型在质量上更优，同时更具并行性，训练时间明显更少。我们的模型在WMT 2014英语翻译任务中实现了28.4 BLEU，比现有的最佳效果（包括合奏）提高了2倍以上。在WMT2014英语到法语翻译任务中，我们的模型在8个GPU上训练3.5天后建立了一个新的单一模型，即最先进的BLEU分数41.8，这只是文献中最佳模型训练成本的一小部分。结果表明，该Transformer可以很好地推广到其他任务中，并成功地应用于大样本和有限样本的英语用户分析。
 
+## Introduction
+Recurrent neural networks, long short-term memory [12] and gated recurrent [7] neural networks in particular, have been firmly established as state of 
+the art approaches in sequence modeling and transduction problems such as language modeling and machine translation [29, 2, 5]. Numerous efforts have 
+since continued to push the boundaries of recurrent language models and encoder-decoder architectures [31, 21, 13].
+
+Recurrent models typically factor computation along the symbol positions of the input and output sequences. Aligning the positions to steps in 
+computation time, they generate a sequence of hidden states ht, as a function of the previous hidden state ht−1 and the input for position t. This 
+inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints 
+limit batching across examples. Recent work has achieved significant improvements in computational efficiency through factorization tricks [18] and 
+conditional computation [26], while also improving model performance in case of the latter. The fundamental constraint of sequential computation, 
+however, remains.
+
+Attention mechanisms have become an integral part of compelling sequence modeling and transduction models in various tasks, allowing modeling of 
+dependencies without regard to their distance in the input or output sequences [2, 16]. In all but a few cases [22], however, such attention mechanisms
+are used in conjunction with a recurrent network.
+
+In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global 
+dependencies between input and output. The Transformer allows for significantly more parallelization and can reach a new state of the art in translation 
+quality after being trained for as little as twelve hours on eight P100 GPUs.
+
+## 导言
+
+递归神经网络(RNN)，特别是长短时记忆(LSTM)[13]和门控递归(GRU)[7]神经网络，已经在时间序列模型和转导问题领域，如语言模型、机器翻译[35,2,5]等任务中，已经成为目前最先进的方法。目前，
+还有许多努力尝试去继续推动循环语言模型和编解码器架构的应用边界[38,24,15].
+
+循环模型通常是沿着输入和输出序列的符号位置进行因子计算。将位置与计算时间中的步骤对齐，先前隐藏状态ht−1的函数和位置t的作为输入，生成一系列隐藏状态ht.这种固有的顺序性排除了训练示例中的并行化,由于内存限制约束批处理，序列化长度变得至关重要。最近一些工作通过因子分解技巧[21]和条件计算[32]显著提高了计算效率，同时在后者的情况下也提高了模型性能。然而，顺序计算的基本约束仍然存在.
+
+注意力机制已经成为各种任务中引人注目的序列建模和转换模型的组成部分，允许在不考虑依赖项在输入或输出序列中的距离的情况下对依赖项进行建模[2，19]。然而，在除少数情况外下[27]，这种注意力机制还是与循环网络相结合使用.
+
+在这项工作中，我们提出了Transformer，一个避免了循环的模型架构，它完全依赖一个注意机制来绘制输入和输出之间的全局依赖性。Transformer 允许更大程度的并行化，可以在8个p100 gpu上经过短短12小时的训练后，在翻译质量上达到一个新的水平.
+
+
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
 commonly used in encoder-decoder architectures with multi-headed self-attention. 
