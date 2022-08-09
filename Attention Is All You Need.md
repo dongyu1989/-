@@ -116,7 +116,11 @@ dimension dv. We compute the dot products of the query with all keys, divide eac
 values.
 
 In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q. The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as:
-<img src="./image/attention1.png">
+<img src="./image/attention_1.png">
+
+The two most commonly used attention functions are additive attention [2], and dot-product (multiplicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of 1/radical sign dk. Additive attention computes the compatibility function using a feed-forward network with a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code.
+
+While for small values of dk the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of dk[3]. We suspect that for large values of dk, the dot products grow large in magnitude, pushing the softmax function into regions where it hasextremely small gradients 4. To counteract this effect, we scale the dot products by 1/radical sign dk
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
