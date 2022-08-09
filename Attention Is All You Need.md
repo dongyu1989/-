@@ -119,7 +119,7 @@ In practice, we compute the attention function on a set of queries simultaneousl
 
 The two most commonly used attention functions are additive attention [2], and dot-product (multiplicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of 1/radical sign dk. Additive attention computes the compatibility function using a feed-forward network with a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code.
 
-While for small values of dk the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of dk[3]. We suspect that for large values of dk, the dot products grow large in magnitude, pushing the softmax function into regions where it hasextremely small gradients 4. To counteract this effect, we scale the dot products by 1/radical sign dk
+While for small values of dk the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of dk[3]. We suspect that for large values of dk, the dot products grow large in magnitude, pushing the softmax function into regions where it hasextremely small gradients. To counteract this effect, we scale the dot products by 1/radical sign dk
 
 ### 3.2.1 缩放点击注意力
 我们称我们的特别的关注(attention)为“Scaled Dot-Product Attention”（图2）。输入包括dk维的查询和键，以及dv维的值。我们计算查询与所有键的点积，并将每个点积除以dk 然后应用SoftMax函数得到这些值的权重。
