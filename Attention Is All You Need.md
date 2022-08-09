@@ -110,6 +110,13 @@ query with the corresponding key.
 注意力函数可以描述为从一个查询(query)和一组键值对(key-value pairs)到一个输出的映射，其中，查询(query)、键(key)、值(value)和输出(output)都是向量。输出(output)是以值(value)的加权和进行计算的，其中分配给每个值(value)的权重是通过查询(query)的匹配函数(compatibility function)和相应的键(key)计算的。
 
 ### 3.2.1 Scaled Dot-Product Attention
+<img src="./image/Scaled Dot-Product Attention.png">
+We call our particular attention "Scaled Dot-Product Attention" (Figure 2). The input consists of queries and keys of dimension dk, and values of 
+dimension dv. We compute the dot products of the query with all keys, divide each by pdk, and apply a softmax function to obtain the weights on the
+values.
+
+In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q. The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as:
+<img src="./image/attention1.png">
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
