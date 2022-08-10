@@ -187,7 +187,7 @@ during training.
 其中，pos是位置，i是维度。也就是说，位置编码的每个维度都对应于一个正弦曲线。波长形成一个从2π 到10000 ⋅ 2 π的几何轨迹。我们之所以选择这个函数，是因为我们假设它可以让模型很容易地通过相对位置进行学习，因为对于任何固定的偏移量k，PEpos+k都可以表示为PEpos的线性函数。
 我们对learned positional embeddings[9]进行了实验，发现两个版本产生了几乎相同的结果（见表3第(e)行）。我们选择正弦波模型是因为它可以让模型外推到比训练中遇到的序列长度更长的序列。
 
-## Why Self-Attention
+## 4 Why Self-Attention
 In this section we compare various aspects of self-attention layers to the recurrent and convolutional layers commonly used for mapping one variable-length sequence of symbol representations(x1;...; xn) to another sequence of equal length (z1;...; zn), with xi; zi 属于 Rd, such as a hidden
 layer in a typical sequence transduction encoder or decoder. Motivating our use of self-attention we consider three desiderata.
 
@@ -208,6 +208,19 @@ A single convolutional layer with kernel width k < n does not connect all pairs 
 convolution is equal to the combination of a self-attention layer and a point-wise feed-forward layer, the approach we take in our model.
 
 As side benefit, self-attention could yield more interpretable models. We inspect attention distributions from our models and present and discuss examples in the appendix. Not only do individual attention heads clearly learn to perform different tasks, many appear to exhibit behavior related to the syntactic and semantic structure of the sentences.
+
+## 4 为何使用 Self-Attention
+在本节中，我们将自关注层的各个方面与递归和卷积层进行比较，后两个通常被用于将一个可变长度的符号表示序列（x1 , … , xn）映射到另一个等长序列（z1 , … , zn），其中xi ,   zi ∈ Rd  ，如同在一个典型的序列转导编码器或解码器中的隐藏层。为了使用自我关注，我们考虑了三个目标。
+
+一个是每层的总计算复杂性。另一个是可以并行化的计算量，用所需的最小顺序操作数来衡量。
+
+第三个是网络中远程依赖项之间的路径长度。学习长期依赖性是许多序列转导任务中的一个关键挑战。影响学习这种依赖性能力的一个关键因素是必须在网络中遍历的前向和后向信号的路径长度。输入序列和输出序列中任意位置组合之间的这些路径越短，学习长期依赖关系就越容易[12]。因此，我们还比较了由不同层类型组成的网络中任意两个输入和输出位置之间的最大路径长度。
+
+如表1所示，一个自我关注层将所有位置与恒定数量的顺序执行操作连接起来，而一个循环层则需要O(N)顺序操作。在计算复杂度方面，当序列长度n小于表示维数d时，自注意层比循环层更快，这是机器翻译中最先进的模型（如word-piece[38]和byte-pair[31] representations）使用的句子表示最常见的情况。为了提高涉及非常长序列的任务的计算性能，可以将自我关注限制为仅考虑以各自输出位置为中心的输入序列中大小为r rr的邻域。这将把最大路径长度增加到O ( n / r ) O(n/r)O(n/r)。我们计划在今后的工作中进一步研究这种方法。
+
+核宽k<n的单个卷积层不连接所有输入和输出位置对。这样做需要一堆O(n/r)卷积层（对于连续的内核）或O(logk(n))（对于扩展卷积[18]），增加网络中任意两个位置之间最长路径的长度。卷积层通常比循环层更昂贵，其系数为k。可分离卷积[6]可将复杂性大大降低至o(k·n·d+n·d2)。然而，即使k=n，可分离卷积的复杂度也等于我们在模型中采用的自注意层和 point-wise 前馈层的组合。
+
+作为附带的好处，自我关注可以产生更多可解释的模型。我们检查模型中的注意力分布，并在附录中展示和讨论示例。个体的注意力不仅能清楚地学习执行不同的任务，而且许多注意力表现出与句子的句法和语义结构相关的行为。
 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
