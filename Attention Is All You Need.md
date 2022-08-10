@@ -163,6 +163,15 @@ We also use the usual learned linear transformation and softmax function to conv
 model, we share the same weight matrix between the two embedding layers and the pre-softmax linear transformation, similar to [24]. In the embedding 
 layers, we multiply those weights by radical sign dmodel.
  
+## 3.4 嵌入和 Softmax 
+其他序列转导(Sequence Transduction)模型类似，我们使用可学习的嵌入(Embeddings)将输入tokens和输出tokens转换为dmodel维的向量。我们还使用常用的可学习的线性变换和SoftMax函数将解码器的输出转换为待预测的下一个token的概率。在我们的模型中，我们在两个嵌入层之间共享相同的权重矩阵和Pre-SoftMax线性变换，类似于[30]。在嵌入层中，我们将这些权重乘以by radical sign dmodel。
+
+## 3.5 Positional Encoding
+Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the tokens in the sequence. To this end, we add "positional encodings" to the input embeddings at the Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.
+![image](https://user-images.githubusercontent.com/16860150/183792247-b0295411-e2a8-4b96-b89f-e6f2881c2ec8.png)
+
+
+Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the tokens in the sequence. To this end, we add "positional encodings" to the input embeddings at the Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
 commonly used in encoder-decoder architectures with multi-headed self-attention. 
