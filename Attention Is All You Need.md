@@ -181,6 +181,13 @@ relative positions, since for any fixed offset k, PEpos+k can be represented as 
 We also experimented with using learned positional embeddings [8] instead, and found that the two versions produced nearly identical results (see Table 3 row (E)). We chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered
 during training.
 
+## 3.5 位置编码
+由于我们的模型不包含递归和卷积，为了使模型能够利用序列的顺序(the order of the sequence)，我们必须注入一些关于序列中tokens的相对或绝对位置的信息。为此，我们将“位置编码”添加到编码器和解码器堆栈底部的输入嵌入(embeddings)中。位置编码与嵌入具有相同的维度dmodel，因此可以将两者相加。位置编码有很多选择，可学习的和可固定的[9]。
+
+其中，pos是位置，i是维度。也就是说，位置编码的每个维度都对应于一个正弦曲线。波长形成一个从2π 到10000 ⋅ 2 π的几何轨迹。我们之所以选择这个函数，是因为我们假设它可以让模型很容易地通过相对位置进行学习，因为对于任何固定的偏移量k，PEpos+k都可以表示为PEpos的线性函数。
+我们对learned positional embeddings[9]进行了实验，发现两个版本产生了几乎相同的结果（见表3第(e)行）。我们选择正弦波模型是因为它可以让模型外推到比训练中遇到的序列长度更长的序列。
+
+## 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
 commonly used in encoder-decoder architectures with multi-headed self-attention. 
