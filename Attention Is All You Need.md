@@ -143,8 +143,26 @@ Multi-head attention allows the model to jointly attend to information from diff
 ### 3.2.2 多头注意力
 不同于使用dmodel维度的键、值和查询来执行单一注意功能，我们发现，使用另一种可学习的线性投影（projection）分别对查询、键和值进行h次线性投影（projection）会更有效，这些投影将这些元素分别映射到维度为dk，dk，dv的空间。在这些元素的每个投影版本上，我们并行执行注意力函数，得到dv维的输出值。如图2所示，之后它们被连接起来，并再次进行投影，从而得到最终的值。
 
-在这项工作中，我们使用H = 8 H=8H=8的并行 attention layers 或 heads。对于每个模型，dk=dv=dmodel/h=64。由于每个头部的降维，总的计算成本与 single-head 全尺寸注意力相似。
+在这项工作中，我们使用H = 8的并行 attention layers 或 heads。对于每个模型，dk=dv=dmodel/h=64。由于每个头部的降维，总的计算成本与 single-head 全尺寸注意力相似。
 
+## 3.3 Position-wise Feed-Forward Networks
+In addition to attention sub-layers, each of the layers in our encoder and decoder contains a fully connected feed-forward network, which is applied to each position separately and identically. This consists of two linear transformations with a ReLU activation in between.
+![image](https://user-images.githubusercontent.com/16860150/183788682-f4a59ef4-03d2-4025-8214-9045b5f65746.png)
+
+While the linear transformations are the same across different positions, they use different parameters from layer to layer. Another way of describing this is as two convolutions with kernel size 1. The dimensionality of input and output is dmodel = 512, and the inner-layer has dimensionality
+dff = 2048.
+
+## 3.3 全连接前馈网络
+除了关注子层之外，我们的编码器和解码器中的每个层都包含一个完全连接的前馈网络，该网络分别应用于每个position，并且完全相同。该网络也包括有两个通过ReLU连接起来的线性变换。
+
+虽然线性变换在不同的位置上是相同的，但它们在不同的层之间使用不同的参数。另一种描述这一点的方法是两个内核大小为1的卷积。输入输出维数为dmodel = 512，内层维数为dff=2048。
+
+## 3.4 Embeddings and Softmax
+Similarly to other sequence transduction models, we use learned embeddings to convert the input tokens and output tokens to vectors of dimension dmodel. 
+We also use the usual learned linear transformation and softmax function to convert the decoder output to predicted next-token probabilities. In our 
+model, we share the same weight matrix between the two embedding layers and the pre-softmax linear transformation, similar to [24]. In the embedding 
+layers, we multiply those weights by radical sign dmodel.
+ 
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
 commonly used in encoder-decoder architectures with multi-headed self-attention. 
