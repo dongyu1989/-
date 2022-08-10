@@ -171,7 +171,16 @@ Since our model contains no recurrence and no convolution, in order for the mode
 ![image](https://user-images.githubusercontent.com/16860150/183792247-b0295411-e2a8-4b96-b89f-e6f2881c2ec8.png)
 
 
-Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the tokens in the sequence. To this end, we add "positional encodings" to the input embeddings at the Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations
+Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the tokens in the sequence. To this end, we add "positional encodings" to the input embeddings at the Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention. bottoms of the encoder and decoder stacks. The positional encodings have the same dimension dmodel as the embeddings, so that the two can be summed. There are many choices of positional encodings, learned and fixed [8].
+In this work, we use sine and cosine functions of different frequencies:
+![image](https://user-images.githubusercontent.com/16860150/183792535-24edb087-0710-462a-8ed4-4c0fbdae7626.png)
+
+where pos is the position and i is the dimension. That is, each dimension of the positional encoding corresponds to a sinusoid. The wavelengths form a geometric progression from 2π to 10000 · 2π. We chose this function because we hypothesized it would allow the model to easily learn to attend by
+relative positions, since for any fixed offset k, PEpos+k can be represented as a linear function of PEpos.
+
+We also experimented with using learned positional embeddings [8] instead, and found that the two versions produced nearly identical results (see Table 3 row (E)). We chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered
+during training.
+
 ## Conclusion
 In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most 
 commonly used in encoder-decoder architectures with multi-headed self-attention. 
